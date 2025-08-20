@@ -1,0 +1,26 @@
+
+name: Build HUTB engine
+
+on: [push]
+    
+jobs:
+  build_engine:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v3
+       
+      - name: Build HUTB engine
+        run: |
+          sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu jammy main universe"
+          sudo apt-get update
+          sudo apt-get install build-essential clang lld g++-12 cmake ninja-build libvulkan1 python3 python3-dev python3-pip libpng-dev libtiff5-dev libjpeg-dev tzdata sed curl unzip autoconf libtool rsync libxml2-dev git git-lfs
+          # sudo apt-get install mono-complete
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 180
+          chmod +x Setup.sh
+          chmod +x GenerateProjectFiles.sh
+          chmod +x Engine/Build/BatchFiles/Linux/GitDependencies.sh
+          ./Setup.sh
+          ./GenerateProjectFiles.sh
+          # make
+        
